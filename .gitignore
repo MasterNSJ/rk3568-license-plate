@@ -1,0 +1,38 @@
+# Local tools, credentials and editor state
+.env
+.env.*
+!.env.example
+.ssh/
+*.pem
+*.key
+*.pro.user*
+*.user
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Build products
+plate_ui/build*/
+plate_persistent/install/
+*.o
+*.obj
+*.exe
+*.dll
+Makefile*
+moc_*.cpp
+ui_*.h
+.qmake.stash
+
+# Python cache and local virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv*/
+
+# Runtime output and private photos
+image_results/
+camera_work/
+result_*/
+*.log
+*.pending.rknn

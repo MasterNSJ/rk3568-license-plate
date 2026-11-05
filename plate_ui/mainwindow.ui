@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>360</width>
+    <height>576</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>RK3568 智能车牌识别</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow, QWidget#centralwidget { background-color: #0b1220; }
+QLabel { color: #e6edf6; background: transparent; }
+QLabel#appBadge { background: #15382f; color: #72e6ba; border: 1px solid #285747; border-radius: 10px; }
+QLabel#eyebrowLabel, QLabel#cameraHintLabel, QLabel#fpsTitleLabel, QLabel#latencyTitleLabel, QLabel#inputSizeTitleLabel, QLabel#footerLabel { color: #8192a9; }
+QLabel#modeLabel { background: #17382e; color: #7ae7bb; border: 1px solid #285344; border-radius: 9px; padding: 5px 8px; }
+QFrame#cameraFrame { background: #0e192a; border: 1px solid #26384e; border-radius: 14px; }
+QLabel#cameraTitleLabel { color: #c6d4e5; }
+QLabel#cameraStateLabel, QLabel#resultStateLabel { color: #91a3ba; background: #1b293d; border-radius: 7px; padding: 3px 7px; }
+QLabel#cameraLabel { color: #7d93ad; }
+QFrame#resultFrame { background: #132237; border: 1px solid #2a405a; border-radius: 13px; }
+QLabel#plateTitleLabel { color: #a6b7cc; }
+QLabel#plateLabel { color: #83ebc7; }
+QLabel#confidenceLabel, QLabel#ocrConfidenceLabel { color: #a6b7cc; }
+QFrame#metricsFrame { background: #101d2f; border: 1px solid #22364d; border-radius: 12px; }
+QFrame#metricDivider1, QFrame#metricDivider2 { background: #2a3b50; border: none; }
+QLabel#fpsValueLabel, QLabel#latencyValueLabel, QLabel#inputSizeValueLabel { color: #dce8f7; }
+QLabel#statuslabel { color: #a9bdd3; }
+QPushButton { color: #d7e3f2; background: #1a2a40; border: 1px solid #354c68; border-radius: 10px; padding: 5px 8px; }
+QPushButton:hover { background: #243a55; border-color: #6583a9; }
+QPushButton:pressed { background: #304b6d; }
+QPushButton#testButton { color: #092c22; background: #6fe0b5; border-color: #6fe0b5; }
+QPushButton#testButton:hover { background: #8df0ca; border-color: #8df0ca; }
+QPushButton#testButton:pressed { background: #4ac995; border-color: #4ac995; }
+QPushButton:disabled, QPushButton#testButton:disabled { color: #66798f; background: #152237; border-color: #25374d; }
+QPushButton#exitButton { color: #a9b9cd; background: transparent; }
+QPushButton#exitButton:hover { background: #243144; }</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="mainLayout" stretch="0,1,0,0,0,0">
+    <property name="spacing">
+     <number>10</number>
+    </property>
+    <property name="leftMargin">
+     <number>14</number>
+    </property>
+    <property name="topMargin">
+     <number>14</number>
+    </property>
+    <property name="rightMargin">
+     <number>14</number>
+    </property>
+    <property name="bottomMargin">
+     <number>12</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="headerFrame">
+      <layout class="QHBoxLayout" name="headerLayout">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="QVBoxLayout" name="titleLayout">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="titleLabel">
+           <property name="text">
+            <string>智能车牌识别</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="modeLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>待机</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="cameraFrame">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>1</verstretch>
+       </sizepolicy>
+      </property>
+      <layout class="QVBoxLayout" name="cameraLayout" stretch="0,1">
+       <property name="leftMargin">
+        <number>14</number>
+       </property>
+       <property name="topMargin">
+        <number>12</number>
+       </property>
+       <property name="rightMargin">
+        <number>14</number>
+       </property>
+       <property name="bottomMargin">
+        <number>12</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="cameraHeaderLayout">
+         <item>
+          <widget class="QLabel" name="cameraTitleLabel">
+           <property name="text">
+            <string>视频预览</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="cameraHeaderSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>1</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="cameraStateLabel">
+           <property name="text">
+            <string>未启动</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="cameraLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>点击开始预览打开摄像头</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="resultFrame">
+      <layout class="QVBoxLayout" name="resultLayout">
+       <property name="spacing">
+        <number>5</number>
+       </property>
+       <property name="leftMargin">
+        <number>14</number>
+       </property>
+       <property name="topMargin">
+        <number>12</number>
+       </property>
+       <property name="rightMargin">
+        <number>14</number>
+       </property>
+       <property name="bottomMargin">
+        <number>12</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="resultHeaderLayout">
+         <item>
+          <widget class="QLabel" name="plateTitleLabel">
+           <property name="text">
+            <string>车牌号码</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="resultHeaderSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>1</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="resultStateLabel">
+           <property name="text">
+            <string>暂无结果</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="plateLabel">
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>— —</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="confidenceLayout">
+         <item>
+          <widget class="QLabel" name="confidenceLabel">
+           <property name="text">
+            <string>检测置信度  --</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="ocrConfidenceLabel">
+           <property name="text">
+            <string>识别置信度  --</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="metricsFrame">
+      <layout class="QHBoxLayout" name="metricsLayout" stretch="1,0,1,0,1">
+       <property name="leftMargin">
+        <number>10</number>
+       </property>
+       <property name="topMargin">
+        <number>9</number>
+       </property>
+       <property name="rightMargin">
+        <number>10</number>
+       </property>
+       <property name="bottomMargin">
+        <number>9</number>
+       </property>
+       <item>
+        <layout class="QVBoxLayout" name="fpsLayout">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="fpsValueLabel">
+           <property name="text">
+            <string>--</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="fpsTitleLabel">
+           <property name="text">
+            <string>画面帧率 FPS</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QFrame" name="metricDivider1">
+         <property name="maximumSize">
+          <size>
+           <width>1</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::VLine</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="latencyLayout">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="latencyValueLabel">
+           <property name="text">
+            <string>--</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="latencyTitleLabel">
+           <property name="text">
+            <string>推理耗时 ms</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QFrame" name="metricDivider2">
+         <property name="maximumSize">
+          <size>
+           <width>1</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::VLine</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="inputSizeLayout">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="inputSizeValueLabel">
+           <property name="text">
+            <string>--</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="inputSizeTitleLabel">
+           <property name="text">
+            <string>输入分辨率</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="statuslabel">
+      <property name="text">
+       <string>状态：待机</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="buttonLayout" stretch="2,1,1">
+      <property name="spacing">
+       <number>8</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="testButton">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>开始预览</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="stopButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>停止</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="exitButton">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>退出</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
