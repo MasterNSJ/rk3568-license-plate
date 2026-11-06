@@ -11,10 +11,13 @@ struct PlateResult {
     std::string sampling, error;
     cv::Size native_size;
     double recognition_call_ms = 0;
+    double crop_ms = 0, decode_ms = 0;
+    bool accepted = true;
 };
 struct FrameResult {
     std::vector<PlateResult> plates;
     double detection_call_ms = 0;
+    double preprocess_ms = 0, postprocess_ms = 0, total_ms = 0;
 };
 // Construct and use on one worker thread. Keep alive across frames when adding Qt.
 class Engine {
@@ -29,3 +32,4 @@ private:
     std::unique_ptr<Impl> impl_;
 };
 } // namespace plate
+

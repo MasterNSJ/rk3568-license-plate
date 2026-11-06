@@ -13,6 +13,8 @@ struct FrameSaveTask {
     QString imagePath;
     QSize frameSize;
     QString error;
+    qint64 capturedMs = 0;
+    double convertMs = 0, encodeMs = 0;
 };
 using FrameSaveTaskPtr = QSharedPointer<FrameSaveTask>;
 Q_DECLARE_METATYPE(FrameSaveTaskPtr)
@@ -29,3 +31,4 @@ signals:
 };
 
 #endif
+

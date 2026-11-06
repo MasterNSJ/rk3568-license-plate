@@ -2,12 +2,15 @@
 
 #include <QImageWriter>
 #include <QThread>
+#include <QElapsedTimer>
 
 void FrameSaver::save(FrameSaveTaskPtr task)
 {
     if (!task)
         return;
     task->error.clear();
+    QElapsedTimer timer;
+    timer.start();
     task->frameSize = task->frame.size();
     const auto format = task->frame.pixelFormat();
     const bool subsampled420 = format == QVideoFrame::Format_NV12
@@ -38,6 +41,8 @@ void FrameSaver::save(FrameSaveTaskPtr task)
     // The queued argument holds a shared task, not a second QVideoFrame value.
     // Release the camera buffer before the slower lossless PNG encoding.
     task->frame = QVideoFrame();
+    task->convertMs = timer.nsecsElapsed() / 1000000.0;
+    timer.restart();
     if (task->error.isEmpty()) {
         if (QThread::currentThread()->isInterruptionRequested()) {
             task->error = QStringLiteral("取帧任务已取消");
@@ -50,5 +55,7 @@ void FrameSaver::save(FrameSaveTaskPtr task)
                 task->error = QStringLiteral("保存摄像头图片失败：%1").arg(writer.errorString());
         }
     }
+    task->encodeMs = timer.nsecsElapsed() / 1000000.0;
     emit saved(task);
 }
+

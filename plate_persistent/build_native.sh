@@ -13,7 +13,7 @@ package_dir="$project_dir/install/plate_persistent"
 for required in "$compiler" "$api_dir/include/rknn_api.h" "$api_dir/aarch64/librknnrt.so" \
     "$sysroot/usr/include/opencv4/opencv2/core.hpp" "$detector" "$recognizer" \
     "$project_dir/main.cpp" "$project_dir/plate_engine.cpp" "$project_dir/plate_engine.h" \
-    "$project_dir/plate_algorithms.h" "$project_dir/run_image.sh" \
+    "$project_dir/plate_algorithms.h" "$project_dir/plate_quality.h" "$project_dir/run_image.sh" \
     "$project_dir/stream_protocol.h" "$project_dir/run_stream.sh"; do
     if [ ! -f "$required" ]; then
         printf 'Missing required file: %s\n' "$required" >&2
@@ -41,3 +41,4 @@ chmod +x "$package_dir/plate_native" "$package_dir/run_image.sh"
 sha256sum "$package_dir/model/plate_detect.rknn" "$package_dir/model/lprnet.rknn"
 printf '\nPackage ready: %s\n' "$package_dir"
 printf 'OpenCV is linked from the matching target sysroot (4.5.5), not the SDK static 3.4.5 bundle.\n'
+

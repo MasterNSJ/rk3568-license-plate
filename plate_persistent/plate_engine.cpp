@@ -1,4 +1,5 @@
 #include "plate_engine.h"
+#include "plate_quality.h"
 #include "rknn_api.h"
 
 #include <chrono>
@@ -220,6 +221,9 @@ cv::Mat recognition_input(const cv::Mat& image, PlateResult& result, double marg
     return warp(image, ordered, {94, 24}, cv::BORDER_REPLICATE);
 }
 float round3(double value) { return static_cast<float>(std::nearbyint(value * 1000.0) / 1000.0); }
+double since(Clock::time_point start) {
+    return std::chrono::duration<double, std::milli>(Clock::now() - start).count();
+}
 } // namespace
 
 class Engine::Impl {
@@ -227,6 +231,7 @@ public:
     Impl(const std::string& detector, const std::string& recognizer)
         : detection(detector, 640, 640, 3), recognition(recognizer, 94, 24, 1) {}
     Runtime detection, recognition;
+    QualityConfig quality = quality_from_environment();
 };
 Engine::Engine(const std::string& detector_path, const std::string& recognizer_path)
     : impl_(new Impl(detector_path, recognizer_path)) {}
@@ -234,6 +239,7 @@ Engine::~Engine() = default;
 
 FrameResult Engine::process(const cv::Mat& image_bgr, double margin)
 {
+    const auto started = Clock::now();
     if (image_bgr.empty() || image_bgr.type() != CV_8UC3)
         throw std::runtime_error("Expected a nonempty BGR uint8 source image");
     if (!std::isfinite(margin) || margin < 0 || margin > .2)
@@ -249,7 +255,9 @@ FrameResult Engine::process(const cv::Mat& image_bgr, double margin)
                        left, 640 - new_width - left, cv::BORDER_CONSTANT, {114, 114, 114});
     cv::cvtColor(padded, rgb, cv::COLOR_BGR2RGB);
     FrameResult frame;
+    frame.preprocess_ms = since(started);
     const auto heads = impl_->detection.infer(rgb, frame.detection_call_ms);
+    const auto post_start = Clock::now();
     auto detections = decode_detector(detector_heads(heads));
     for (auto detection : detections) {
         for (int coordinate = 0; coordinate < 4; ++coordinate) {
@@ -264,6 +272,13 @@ FrameResult Engine::process(const cv::Mat& image_bgr, double margin)
         }
         PlateResult result;
         result.detection = detection;
+        result.error = quality_reason(detection, image_bgr.cols, image_bgr.rows, impl_->quality);
+        if (!result.error.empty()) {
+            result.accepted = false;
+            frame.plates.push_back(std::move(result));
+            continue;
+        }
+        const auto crop_start = Clock::now();
         try {
             result.input_bgr = recognition_input(image_bgr, result, margin);
         } catch (const cv::Exception& error) {
@@ -271,12 +286,21 @@ FrameResult Engine::process(const cv::Mat& image_bgr, double margin)
         } catch (const std::runtime_error& error) {
             result.error = error.what();
         }
+        result.crop_ms = since(crop_start);
         if (result.error.empty()) {
             const auto output = impl_->recognition.infer(result.input_bgr, result.recognition_call_ms);
+            const auto decode_start = Clock::now();
             result.recognition = decode_recognizer(output.at(0).values, class_major(output.at(0)));
+            result.decode_ms = since(decode_start);
         }
         frame.plates.push_back(std::move(result));
     }
+    double crop_and_recognition = 0;
+    for (const auto& result : frame.plates)
+        crop_and_recognition += result.crop_ms + result.recognition_call_ms + result.decode_ms;
+    frame.postprocess_ms = std::max(0.0, since(post_start) - crop_and_recognition);
+    frame.total_ms = since(started);
     return frame;
 }
 } // namespace plate
+

@@ -36,3 +36,7 @@ camera_work/
 result_*/
 *.log
 *.pending.rknn
+.test-output/
+experiments/results/board/
+experiments/results/private/
+
