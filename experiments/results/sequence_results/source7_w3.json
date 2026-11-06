@@ -1,0 +1,86 @@
+{
+  "metrics": {
+    "source": 7,
+    "window": 3,
+    "truth": "皖K66666",
+    "frames": 10,
+    "confirmed_frames": 9,
+    "wrong_confirmations": 0,
+    "text_changes_between_confirmed_outputs": 0,
+    "first_correct_confirmation_ms": 1000,
+    "state_cleared_by_12000ms": true
+  },
+  "input": [
+    {
+      "timestamp_ms": 0,
+      "frame": "p07_original",
+      "raw": "皖K66666",
+      "valid": true,
+      "truth": "皖K66666"
+    },
+    {
+      "timestamp_ms": 1000,
+      "frame": "p07_dim",
+      "raw": "皖K66666",
+      "valid": true,
+      "truth": "皖K66666"
+    },
+    {
+      "timestamp_ms": 2000,
+      "frame": "p07_original",
+      "raw": "皖K66666",
+      "valid": true,
+      "truth": "皖K66666"
+    },
+    {
+      "timestamp_ms": 3000,
+      "frame": "p07_blur",
+      "raw": "皖K66666",
+      "valid": true,
+      "truth": "皖K66666"
+    },
+    {
+      "timestamp_ms": 4000,
+      "frame": "p07_bright",
+      "raw": "皖K66666",
+      "valid": true,
+      "truth": "皖K66666"
+    },
+    {
+      "timestamp_ms": 5000,
+      "frame": "p07_original",
+      "raw": "皖K66666",
+      "valid": true,
+      "truth": "皖K66666"
+    },
+    {
+      "timestamp_ms": 6000,
+      "frame": "p07_rotate5",
+      "raw": "皖K66666",
+      "valid": true,
+      "truth": "皖K66666"
+    },
+    {
+      "timestamp_ms": 7000,
+      "frame": "p07_original",
+      "raw": "皖K66666",
+      "valid": true,
+      "truth": "皖K66666"
+    },
+    {
+      "timestamp_ms": 8000,
+      "frame": "p07_dim",
+      "raw": "皖K66666",
+      "valid": true,
+      "truth": "皖K66666"
+    },
+    {
+      "timestamp_ms": 9000,
+      "frame": "p07_original",
+      "raw": "皖K66666",
+      "valid": true,
+      "truth": "皖K66666"
+    }
+  ],
+  "output_tsv": "0\t皖K66666\t-\t1\n1000\t皖K66666\t皖K66666\t2\n2000\t皖K66666\t皖K66666\t3\n3000\t皖K66666\t皖K66666\t3\n4000\t皖K66666\t皖K66666\t3\n5000\t皖K66666\t皖K66666\t3\n6000\t皖K66666\t皖K66666\t3\n7000\t皖K66666\t皖K66666\t3\n8000\t皖K66666\t皖K66666\t3\n9000\t皖K66666\t皖K66666\t3\n10000\t皖K66666\t皖K66666\t3\n11000\t皖K66666\t皖K66666\t3\n12000\t-\t-\t0\n13000\t-\t-\t0\n"
+}

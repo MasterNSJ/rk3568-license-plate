@@ -1,0 +1,10 @@
+{
+  "kind": "60_second_optimized_Qt_process_RSS_check",
+  "pid_recorded": true,
+  "samples": 60,
+  "min_kb": 2472,
+  "max_kb": 91344,
+  "last_10_median_kb": 91344.0,
+  "scope": "Qt process only, excludes persistent backend and system graphics memory",
+  "limitation": "Short run, not a long-term memory-leak test"
+}

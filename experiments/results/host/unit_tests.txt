@@ -1,0 +1,25 @@
+PASS normal quadrilateral accepted
+PASS low final score rejected
+PASS baseline filter switch preserves candidates
+PASS out of bounds rejected
+PASS repeated corner rejected
+PASS self intersecting corners rejected
+PASS tiny crop rejected
+PASS NaN corner rejected
+PASS one vote remains pending
+PASS two votes remain pending
+PASS three matching votes confirm
+PASS conflicting latest vote returns to review
+PASS invalid OCR cannot confirm
+PASS new location clears prior target votes
+PASS independent clock expires at TTL boundary
+PASS expired target clears displayed state
+PASS next vehicle starts fresh
+PASS backwards clock rejected
+PASS nonmajority quorum rejected
+PASS zero window rejected
+PASS short history confirms inside window
+PASS history expiry clears old confirmation
+PASS stream protocol roundtrip
+PASS NUL path rejected
+{"tests_passed":24,"kind":"cpp_unit_tests"}

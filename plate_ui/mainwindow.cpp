@@ -26,12 +26,55 @@
 #include <QTimer>
 #include <QVideoProbe>
 #include <QtMath>
+#include <QJsonObject>
+#include "../plate_persistent/plate_quality.h"
+
+namespace {
+void logExperiment(QJsonObject data) {
+    const QByteArray record = QJsonDocument(data).toJson(QJsonDocument::Compact);
+    qInfo().noquote() << "PLATE_METRIC" << record;
+    const QString path = qEnvironmentVariable("PLATE_METRICS_FILE");
+    if (!path.isEmpty()) {
+        QFile file(path);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Append)) file.write(record + '\n');
+    }
+}
+}
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    m_observationClock.start();
+    m_frameFormat = qEnvironmentVariable("PLATE_FRAME_FORMAT", QStringLiteral("png")).toLatin1().toLower();
+    if (m_frameFormat != "png" && m_frameFormat != "bmp")
+        throw std::runtime_error("PLATE_FRAME_FORMAT must be png or bmp");
+    m_sampleIntervalMs = static_cast<int>(plate::environment_number("PLATE_SAMPLE_MS", 1000, 100, 10000));
+    plate::ConsensusConfig consensus;
+    consensus.window = static_cast<std::size_t>(plate::environment_number("PLATE_VOTE_WINDOW", 5, 1, 99));
+    consensus.votes = static_cast<std::size_t>(plate::environment_number("PLATE_VOTE_QUORUM", consensus.window / 2 + 1, 1, 99));
+    m_targetTimeoutMs = static_cast<int>(plate::environment_number("PLATE_TARGET_TTL_MS", 3000, 100, 60000));
+    consensus.target_timeout_ms = m_targetTimeoutMs;
+    consensus.max_history_ms = static_cast<std::int64_t>(plate::environment_number("PLATE_HISTORY_MS", 8000, 100, 60000));
+    m_consensus = plate::Consensus(consensus);
+    m_consensusTimer = new QTimer(this);
+    m_consensusTimer->setInterval(100);
+    connect(m_consensusTimer, &QTimer::timeout, this, [this] {
+        if (m_previewRequested && m_consensus.expire(m_observationClock.elapsed())) {
+            ui->plateLabel->setText(QStringLiteral("--"));
+            ui->confidenceLabel->setText(QStringLiteral("检测置信度  --"));
+            ui->ocrConfidenceLabel->setText(QStringLiteral("投票支持  --"));
+            ui->resultStateLabel->setText(QStringLiteral("目标已超时"));
+            logExperiment({{"event", "target_expired"}, {"time_ms", double(m_observationClock.elapsed())}});
+        }
+    });
+    m_consensusTimer->start();
+    if (qEnvironmentVariableIntValue("PLATE_AUTO_START") == 1)
+        QTimer::singleShot(0, this, &MainWindow::startCamera);
+    const int runSeconds = static_cast<int>(plate::environment_number("PLATE_RUN_SECONDS", 0, 0, 86400));
+    if (runSeconds > 0) QTimer::singleShot(runSeconds * 1000, this, &QWidget::close);
     m_backend = new PersistentBackend(this);
     connect(m_backend, &PersistentBackend::completed, this,
             [this](quint64 id, bool success, const QString &error) {
@@ -67,7 +110,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_cameraTimer = new QTimer(this);
     m_cameraTimer->setTimerType(Qt::PreciseTimer);
-    m_cameraTimer->setInterval(1000);
+    m_cameraTimer->setInterval(m_sampleIntervalMs);
     connect(m_cameraTimer, &QTimer::timeout, this, &MainWindow::cameraTick);
 
     m_imageWatchdog = new QTimer(this);
@@ -320,7 +363,7 @@ void MainWindow::handleCameraStatus(QCamera::Status status)
         m_cameraRecognitionEnabled = false;
 #if defined(Q_OS_LINUX)
         m_cameraRecognitionEnabled = m_videoProbe && m_videoProbe->isActive()
-            && QFileInfo(QStringLiteral("/userdata/plate_persistent/run_stream.sh")).isReadable();
+            && QFileInfo(qEnvironmentVariable("PLATE_BACKEND_SCRIPT", QStringLiteral("/userdata/plate_persistent/run_stream.sh"))).isReadable();
 #endif
         m_probeFpsClock.start();
         m_probeFrameCount = 0;
@@ -328,7 +371,7 @@ void MainWindow::handleCameraStatus(QCamera::Status status)
         ui->modeLabel->setText(m_imageBusy ? QStringLiteral("识别中") : QStringLiteral("预览中"));
         ui->cameraStateLabel->setText(QStringLiteral("已启动"));
         ui->statuslabel->setText(m_cameraRecognitionEnabled
-            ? QStringLiteral("状态：预览中，最多每秒抽取一帧识别；完整号码仍需核对")
+            ? QStringLiteral("状态：预览中，按配置间隔抽帧识别；完整号码仍需核对")
             : QStringLiteral("状态：摄像头预览中；自动识别不可用，可继续使用识别图片"));
         const QSize size = m_camera->viewfinderSettings().resolution();
         if (size.isValid())
@@ -429,7 +472,7 @@ void MainWindow::startImageRecognition()
     if (m_imageBusy || m_frameSaveTask || m_imageDialogOpen || m_closing)
         return;
 
-    const QString script = QStringLiteral("/userdata/plate_persistent/run_stream.sh");
+    const QString script = qEnvironmentVariable("PLATE_BACKEND_SCRIPT", QStringLiteral("/userdata/plate_persistent/run_stream.sh"));
     if (!QFileInfo(script).isReadable()) {
         qWarning().noquote() << "Missing image recognition launcher:" << script;
         showImageRecognitionError(QStringLiteral("未找到识别程序，请先部署板端运行包"));
@@ -752,7 +795,61 @@ bool MainWindow::applyImageRecognitionResult(QString *error)
         if (size.isValid())
             ui->inputSizeValueLabel->setText(QStringLiteral("%1×%2").arg(size.width()).arg(size.height()));
     }
+    if (m_imageFromCamera) applyTemporalResult(detections);
+    QJsonObject metric{{"event", "result_submitted"}, {"request_id", double(m_imageGeneration)},
+                       {"model_calls_ms", modelCallMs}, {"request_to_ui_submit_ms", double(m_imageClock.elapsed())},
+                       {"sample_interval_ms", m_sampleIntervalMs}};
+    if (m_imageFromCamera && m_activeCameraTask) {
+        metric.insert("frame_convert_ms", m_activeCameraTask->convertMs);
+        metric.insert("frame_encode_ms", m_activeCameraTask->encodeMs);
+        metric.insert("frame_format", QString::fromLatin1(m_activeCameraTask->imageFormat));
+        metric.insert("frame_file_bytes", double(QFileInfo(m_activeCameraTask->imagePath).size()));
+        metric.insert("capture_to_ui_submit_ms", double(m_observationClock.elapsed() - m_activeCameraTask->capturedMs));
+    }
+    logExperiment(metric);
     return true;
+}
+
+void MainWindow::applyTemporalResult(const QJsonArray& detections)
+{
+    const auto now = m_observationClock.elapsed();
+    if (!m_activeCameraTask || now - m_activeCameraTask->capturedMs >= m_targetTimeoutMs) {
+        m_consensus.reset();
+        ui->plateLabel->setText(QStringLiteral("待确认"));
+        ui->resultStateLabel->setText(QStringLiteral("结果已过期"));
+        return;
+    }
+    // Refuse ambiguous scenes instead of voting across multiple vehicles.
+    QJsonArray accepted;
+    for (const auto& value : detections) {
+        const auto d = value.toObject();
+        if (d.value("accepted").toBool(true)) accepted.append(d);
+    }
+    if (accepted.size() != 1) {
+        m_consensus.reset();
+        ui->plateLabel->setText(QStringLiteral("--"));
+        ui->resultStateLabel->setText(accepted.isEmpty() ? QStringLiteral("未检测到有效目标") : QStringLiteral("多目标待确认"));
+        return;
+    }
+    const auto d = accepted.first().toObject();
+    const auto box = d.value("bbox_xyxy").toArray();
+    if (box.size() != 4) { m_consensus.reset(); return; }
+    plate::Detection detection;
+    for (int i = 0; i < 4; ++i) {
+        if (!box[i].isDouble() || !qIsFinite(box[i].toDouble())) { m_consensus.reset(); return; }
+        detection.box[i] = float(box[i].toDouble());
+    }
+    if (detection.box[2] <= detection.box[0] || detection.box[3] <= detection.box[1]) {
+        m_consensus.reset(); return;
+    }
+    const QString raw = d.value("raw_plate").toString();
+    const bool valid = d.value("basic_complete").toBool() && d.value("review_reason").toString().isEmpty();
+    const auto state = m_consensus.observe(detection, raw.toStdString(), valid, now);
+    ui->plateLabel->setText(state.confirmed.empty() ? QStringLiteral("待确认") : QString::fromStdString(state.confirmed));
+    ui->resultStateLabel->setText(state.confirmed.empty() ? QStringLiteral("多帧待确认") : QStringLiteral("多帧已确认"));
+    ui->ocrConfidenceLabel->setText(QStringLiteral("投票支持 %1 / %2").arg(qulonglong(state.support)).arg(qulonglong(state.observations)));
+    logExperiment({{"event", "consensus"}, {"time_ms", double(now)}, {"raw", raw},
+                   {"confirmed", QString::fromStdString(state.confirmed)}, {"support", int(state.support)}});
 }
 
 void MainWindow::showImageRecognitionError(const QString &message)
@@ -783,6 +880,7 @@ void MainWindow::updateImagePreview()
 
 void MainWindow::invalidateCameraSession()
 {
+    m_consensus.reset();
     ++m_cameraGeneration;
     m_cameraRecognitionEnabled = false;
     m_cameraFrameRequested = false;
@@ -856,7 +954,7 @@ void MainWindow::handleVideoFrame(const QVideoFrame &frame)
             || m_frameSaveTask || m_imageDialogOpen || !m_camera
             || m_camera->status() != QCamera::ActiveStatus)
         return;
-    if (m_cameraSampleClock.isValid() && m_cameraSampleClock.elapsed() < 1000)
+    if (m_cameraSampleClock.isValid() && m_cameraSampleClock.elapsed() < m_sampleIntervalMs)
         return;
     m_cameraFrameRequested = false;
 
@@ -876,11 +974,13 @@ void MainWindow::handleVideoFrame(const QVideoFrame &frame)
         return;
     }
     auto task = FrameSaveTaskPtr::create();
+    task->capturedMs = m_observationClock.elapsed();
     task->frame = frame;
     task->frameSize = frame.size();
     task->directory = directory;
     task->generation = m_cameraGeneration;
-    task->imagePath = QDir(directory->path()).filePath(QStringLiteral("frame.png"));
+    task->imageFormat = m_frameFormat;
+    task->imagePath = QDir(directory->path()).filePath(QStringLiteral("frame.") + QString::fromLatin1(m_frameFormat));
     m_frameSaveTask = task;
     m_cameraSampleClock.start();
     updateActionButtons();
@@ -905,7 +1005,7 @@ void MainWindow::handleFrameSaved(FrameSaveTaskPtr task)
         return;
     }
 #if defined(Q_OS_LINUX)
-    const QString script = QStringLiteral("/userdata/plate_persistent/run_stream.sh");
+    const QString script = qEnvironmentVariable("PLATE_BACKEND_SCRIPT", QStringLiteral("/userdata/plate_persistent/run_stream.sh"));
     if (!QFileInfo(script).isReadable()) {
         m_cameraRecognitionEnabled = false;
         setCameraRecognitionStatus(QStringLiteral("状态：未找到板端识别程序，预览和识别图片仍可使用"));
@@ -935,3 +1035,4 @@ void MainWindow::finishCameraTask(bool keepResult)
     m_imageFromCamera = false;
     updateActionButtons();
 }
+

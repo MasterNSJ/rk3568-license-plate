@@ -31,6 +31,9 @@ void save(const std::filesystem::path& directory, const std::string& image_path,
          << ",\n  \"backend\": \"native RKNN C API, no USB inference bridge\","
          << "\n  \"margin_each_side\": " << margin
          << ",\n  \"detection_call_ms\": " << frame.detection_call_ms
+         << ",\n  \"preprocess_ms\": " << frame.preprocess_ms
+         << ",\n  \"postprocess_ms\": " << frame.postprocess_ms
+         << ",\n  \"engine_total_ms\": " << frame.total_ms
          << ",\n  \"timing_scope\": \"input set, model run, output retrieval and copy; not pure NPU time\","
          << "\n  \"detections\": [\n";
     text << "原图：" << image_path << "\n检测数量：" << frame.plates.size() << '\n';
@@ -54,6 +57,9 @@ void save(const std::filesystem::path& directory, const std::string& image_path,
              << ", \"sampling_mode\": " << json_string(result.sampling)
              << ", \"native_crop_size\": [" << result.native_size.width << ", " << result.native_size.height << ']'
              << ", \"recognition_call_ms\": " << result.recognition_call_ms
+             << ", \"accepted\": " << (result.accepted ? "true" : "false")
+             << ", \"crop_ms\": " << result.crop_ms
+             << ", \"decode_ms\": " << result.decode_ms
              << ", \"input_path\": " << (result.input_bgr.empty() ? "null" : json_string((directory / input_name).string()))
              << ", \"ctc_indices\": [";
         for (std::size_t j = 0; j < result.recognition.frame_indices.size(); ++j)
@@ -63,6 +69,8 @@ void save(const std::filesystem::path& directory, const std::string& image_path,
         if (result.recognition.complete && result.error.empty()) text << result.recognition.text;
         else text << "待确认；原始预测=" << result.recognition.text;
         text << '\n';
+        // Keep rejected candidates in JSON, but omit them from the accepted-result canvas.
+        if (!result.accepted) continue;
         const cv::Scalar color = result.recognition.complete && result.error.empty()
                                ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 165, 255);
         const cv::Point top_left(cvRound(detection.box[0]), cvRound(detection.box[1]));
@@ -82,15 +90,29 @@ void save(const std::filesystem::path& directory, const std::string& image_path,
 // stdout also contains SDK logs; only lines beginning @PLATE_ are protocol records.
 int serve(const char* detector, const char* recognizer)
 {
+    const auto init_start = std::chrono::steady_clock::now();
     plate::Engine engine(detector, recognizer);
-    return plate_stream::run(std::cin, std::cout, [&engine](const plate_stream::Request& request) {
+    const double init_ms = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - init_start).count();
+    std::size_t request_index = 0;
+    return plate_stream::run(std::cin, std::cout, [&](const plate_stream::Request& request) {
             const auto begin = std::chrono::steady_clock::now();
             const auto image = cv::imread(request.image, cv::IMREAD_COLOR);
+            const double read_ms = std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - begin).count();
             if (image.empty()) throw std::runtime_error("Cannot read image: " + request.image);
             const auto frame = engine.process(image, .05);
+            const auto save_start = std::chrono::steady_clock::now();
             save(request.directory, request.image, image, frame, .05);
+            const double save_ms = std::chrono::duration<double, std::milli>(
+                std::chrono::steady_clock::now() - save_start).count();
             const double ms = std::chrono::duration<double, std::milli>(
                 std::chrono::steady_clock::now() - begin).count();
+            std::ofstream timing(std::filesystem::path(request.directory) / "timing.json");
+            timing << "{\"request_index\":" << ++request_index
+                   << ",\"model_init_ms\":" << init_ms << ",\"read_ms\":" << read_ms
+                   << ",\"save_ms\":" << save_ms << ",\"backend_total_ms\":" << ms << "}\n";
+            if (!timing) throw std::runtime_error("Cannot save timing metadata");
             return ms;
     });
 }
@@ -143,3 +165,4 @@ int main(int argc, char** argv)
         return 1;
     }
 }
+

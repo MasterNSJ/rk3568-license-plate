@@ -1,0 +1,180 @@
+{
+  "kind": "host_cpp_synthetic_logic_experiment",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "unit_tests": {
+    "tests_passed": 24,
+    "kind": "cpp_unit_tests"
+  },
+  "scenarios": 6,
+  "configurations": 3,
+  "trials": [
+    {
+      "scenario": "stable",
+      "window": 1,
+      "observations": 10,
+      "confirmed_observations": 10,
+      "wrong_confirmations": 0,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": 0
+    },
+    {
+      "scenario": "stable",
+      "window": 3,
+      "observations": 10,
+      "confirmed_observations": 9,
+      "wrong_confirmations": 0,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": 1000
+    },
+    {
+      "scenario": "stable",
+      "window": 5,
+      "observations": 10,
+      "confirmed_observations": 8,
+      "wrong_confirmations": 0,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": 2000
+    },
+    {
+      "scenario": "isolated_errors",
+      "window": 1,
+      "observations": 10,
+      "confirmed_observations": 10,
+      "wrong_confirmations": 2,
+      "confirmed_text_changes": 3,
+      "first_confirmation_ms": 0
+    },
+    {
+      "scenario": "isolated_errors",
+      "window": 3,
+      "observations": 10,
+      "confirmed_observations": 7,
+      "wrong_confirmations": 0,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": 2000
+    },
+    {
+      "scenario": "isolated_errors",
+      "window": 5,
+      "observations": 10,
+      "confirmed_observations": 6,
+      "wrong_confirmations": 0,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": 3000
+    },
+    {
+      "scenario": "alternating",
+      "window": 1,
+      "observations": 10,
+      "confirmed_observations": 10,
+      "wrong_confirmations": 5,
+      "confirmed_text_changes": 9,
+      "first_confirmation_ms": 0
+    },
+    {
+      "scenario": "alternating",
+      "window": 3,
+      "observations": 10,
+      "confirmed_observations": 8,
+      "wrong_confirmations": 4,
+      "confirmed_text_changes": 7,
+      "first_confirmation_ms": 2000
+    },
+    {
+      "scenario": "alternating",
+      "window": 5,
+      "observations": 10,
+      "confirmed_observations": 6,
+      "wrong_confirmations": 3,
+      "confirmed_text_changes": 5,
+      "first_confirmation_ms": 4000
+    },
+    {
+      "scenario": "systematic_error",
+      "window": 1,
+      "observations": 10,
+      "confirmed_observations": 10,
+      "wrong_confirmations": 10,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": 0
+    },
+    {
+      "scenario": "systematic_error",
+      "window": 3,
+      "observations": 10,
+      "confirmed_observations": 9,
+      "wrong_confirmations": 9,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": 1000
+    },
+    {
+      "scenario": "systematic_error",
+      "window": 5,
+      "observations": 10,
+      "confirmed_observations": 8,
+      "wrong_confirmations": 8,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": 2000
+    },
+    {
+      "scenario": "invalid_ocr",
+      "window": 1,
+      "observations": 10,
+      "confirmed_observations": 0,
+      "wrong_confirmations": 0,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": null
+    },
+    {
+      "scenario": "invalid_ocr",
+      "window": 3,
+      "observations": 10,
+      "confirmed_observations": 0,
+      "wrong_confirmations": 0,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": null
+    },
+    {
+      "scenario": "invalid_ocr",
+      "window": 5,
+      "observations": 10,
+      "confirmed_observations": 0,
+      "wrong_confirmations": 0,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": null
+    },
+    {
+      "scenario": "early_error",
+      "window": 1,
+      "observations": 10,
+      "confirmed_observations": 10,
+      "wrong_confirmations": 1,
+      "confirmed_text_changes": 1,
+      "first_confirmation_ms": 0
+    },
+    {
+      "scenario": "early_error",
+      "window": 3,
+      "observations": 10,
+      "confirmed_observations": 8,
+      "wrong_confirmations": 0,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": 2000
+    },
+    {
+      "scenario": "early_error",
+      "window": 5,
+      "observations": 10,
+      "confirmed_observations": 7,
+      "wrong_confirmations": 0,
+      "confirmed_text_changes": 0,
+      "first_confirmation_ms": 3000
+    }
+  ],
+  "limitations": [
+    "No RK3568/NPU inference",
+    "No real image accuracy measurements",
+    "Synthetic systematic errors remain wrong after voting",
+    "Confirmation times use synthetic observation timestamps, not measured processing time"
+  ]
+}

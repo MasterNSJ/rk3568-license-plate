@@ -7,6 +7,8 @@
 #include <QPixmap>
 #include "framesaver.h"
 #include "persistentbackend.h"
+#include "../plate_persistent/plate_consensus.h"
+#include <QJsonArray>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -64,6 +66,7 @@ private:
     void invalidateCameraSession();
     void setCameraRecognitionStatus(const QString &text);
     void finishCameraTask(bool keepResult);
+    void applyTemporalResult(const QJsonArray& detections);
 
     Ui::MainWindow *ui;
     qreal m_uiScale = 0.0;
@@ -104,6 +107,13 @@ private:
     PersistentBackend *m_backend = nullptr;
     bool m_persistentJob = false;
     quint64 m_persistentId = 0;
+    plate::Consensus m_consensus;
+    QElapsedTimer m_observationClock;
+    QTimer *m_consensusTimer = nullptr;
+    int m_sampleIntervalMs = 1000;
+    QByteArray m_frameFormat = "png";
+    int m_targetTimeoutMs = 3000;
 };
 
 #endif // MAINWINDOW_H
+

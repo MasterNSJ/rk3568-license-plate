@@ -1,0 +1,86 @@
+{
+  "metrics": {
+    "source": 1,
+    "window": 5,
+    "truth": "川A8H458",
+    "frames": 10,
+    "confirmed_frames": 0,
+    "wrong_confirmations": 0,
+    "text_changes_between_confirmed_outputs": 0,
+    "first_correct_confirmation_ms": null,
+    "state_cleared_by_12000ms": true
+  },
+  "input": [
+    {
+      "timestamp_ms": 0,
+      "frame": "p01_original",
+      "raw": "",
+      "valid": false,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 1000,
+      "frame": "p01_dim",
+      "raw": "",
+      "valid": false,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 2000,
+      "frame": "p01_original",
+      "raw": "",
+      "valid": false,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 3000,
+      "frame": "p01_blur",
+      "raw": "",
+      "valid": false,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 4000,
+      "frame": "p01_bright",
+      "raw": "",
+      "valid": false,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 5000,
+      "frame": "p01_original",
+      "raw": "",
+      "valid": false,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 6000,
+      "frame": "p01_rotate5",
+      "raw": "",
+      "valid": false,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 7000,
+      "frame": "p01_original",
+      "raw": "",
+      "valid": false,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 8000,
+      "frame": "p01_dim",
+      "raw": "",
+      "valid": false,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 9000,
+      "frame": "p01_original",
+      "raw": "",
+      "valid": false,
+      "truth": "川A8H458"
+    }
+  ],
+  "output_tsv": "0\t-\t-\t0\n1000\t-\t-\t0\n2000\t-\t-\t0\n3000\t-\t-\t0\n4000\t-\t-\t0\n5000\t-\t-\t0\n6000\t-\t-\t0\n7000\t-\t-\t0\n8000\t-\t-\t0\n9000\t-\t-\t0\n10000\t-\t-\t0\n11000\t-\t-\t0\n12000\t-\t-\t0\n13000\t-\t-\t0\n"
+}

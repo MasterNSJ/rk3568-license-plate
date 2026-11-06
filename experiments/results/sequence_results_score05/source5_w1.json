@@ -1,0 +1,86 @@
+{
+  "metrics": {
+    "source": 5,
+    "window": 1,
+    "truth": "浙B2V9L7",
+    "frames": 10,
+    "confirmed_frames": 8,
+    "wrong_confirmations": 8,
+    "text_changes_between_confirmed_outputs": 0,
+    "first_correct_confirmation_ms": null,
+    "state_cleared_by_12000ms": true
+  },
+  "input": [
+    {
+      "timestamp_ms": 0,
+      "frame": "p05_original",
+      "raw": "苏B2V9L7",
+      "valid": true,
+      "truth": "浙B2V9L7"
+    },
+    {
+      "timestamp_ms": 1000,
+      "frame": "p05_dim",
+      "raw": "苏B2V9L7",
+      "valid": true,
+      "truth": "浙B2V9L7"
+    },
+    {
+      "timestamp_ms": 2000,
+      "frame": "p05_original",
+      "raw": "苏B2V9L7",
+      "valid": true,
+      "truth": "浙B2V9L7"
+    },
+    {
+      "timestamp_ms": 3000,
+      "frame": "p05_blur",
+      "raw": "吉2197",
+      "valid": false,
+      "truth": "浙B2V9L7"
+    },
+    {
+      "timestamp_ms": 4000,
+      "frame": "p05_bright",
+      "raw": "苏B2V9L7",
+      "valid": true,
+      "truth": "浙B2V9L7"
+    },
+    {
+      "timestamp_ms": 5000,
+      "frame": "p05_original",
+      "raw": "苏B2V9L7",
+      "valid": true,
+      "truth": "浙B2V9L7"
+    },
+    {
+      "timestamp_ms": 6000,
+      "frame": "p05_rotate5",
+      "raw": "苏B2V97",
+      "valid": false,
+      "truth": "浙B2V9L7"
+    },
+    {
+      "timestamp_ms": 7000,
+      "frame": "p05_original",
+      "raw": "苏B2V9L7",
+      "valid": true,
+      "truth": "浙B2V9L7"
+    },
+    {
+      "timestamp_ms": 8000,
+      "frame": "p05_dim",
+      "raw": "苏B2V9L7",
+      "valid": true,
+      "truth": "浙B2V9L7"
+    },
+    {
+      "timestamp_ms": 9000,
+      "frame": "p05_original",
+      "raw": "苏B2V9L7",
+      "valid": true,
+      "truth": "浙B2V9L7"
+    }
+  ],
+  "output_tsv": "0\t苏B2V9L7\t苏B2V9L7\t1\n1000\t苏B2V9L7\t苏B2V9L7\t1\n2000\t苏B2V9L7\t苏B2V9L7\t1\n3000\t吉2197\t-\t0\n4000\t苏B2V9L7\t苏B2V9L7\t1\n5000\t苏B2V9L7\t苏B2V9L7\t1\n6000\t苏B2V97\t-\t0\n7000\t苏B2V9L7\t苏B2V9L7\t1\n8000\t苏B2V9L7\t苏B2V9L7\t1\n9000\t苏B2V9L7\t苏B2V9L7\t1\n10000\t苏B2V9L7\t苏B2V9L7\t1\n11000\t苏B2V9L7\t苏B2V9L7\t1\n12000\t-\t-\t0\n13000\t-\t-\t0\n"
+}

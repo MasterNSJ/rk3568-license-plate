@@ -1,0 +1,51 @@
+{
+  "source_base_commit": "2d7bd691db8fa63e5db633ffef3e16343bbc0815",
+  "implementation": "implemented_and_ARM_built",
+  "cpp_unit_tests": {
+    "host": "24 passed",
+    "RK3568": "24 passed"
+  },
+  "python_evaluator_tests": "3 passed",
+  "synthetic_logic_replay": {
+    "scenarios": 6,
+    "windows": 3
+  },
+  "board_photo_derived_threshold_sweep": {
+    "status": "completed",
+    "inputs": 84,
+    "settings": 5,
+    "scored_combinations": 420,
+    "extra_first_image_requests": 5
+  },
+  "board_output_sequence_replay": {
+    "status": "completed",
+    "independent_source_photos": 7,
+    "windows": 3,
+    "score_thresholds": [
+      0.3,
+      0.5
+    ]
+  },
+  "live_camera_sampling": {
+    "status": "completed",
+    "formats": [
+      "png",
+      "bmp"
+    ],
+    "interval_ms": [
+      1000,
+      500,
+      250
+    ],
+    "seconds_per_run": 60
+  },
+  "encoding_pixel_roundtrip": {
+    "status": "passed",
+    "formats": 2,
+    "repetitions_per_format": 3
+  },
+  "short_resource_validation": "60 second Qt RSS check completed",
+  "independent_real_road_video": "not_available_not_claimed",
+  "real_taxi_roof_signs": "not_available_not_claimed",
+  "30_minute_stability": "not_run_not_claimed"
+}
