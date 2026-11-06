@@ -1,0 +1,57 @@
+{
+  "preprocess_ms": {
+    "n": 84,
+    "median_ms": 6.682084,
+    "p95_ms": 13.318376
+  },
+  "detection_call_ms": {
+    "n": 84,
+    "median_ms": 172.2162045,
+    "p95_ms": 181.47356
+  },
+  "postprocess_ms": {
+    "n": 84,
+    "median_ms": 4.572167,
+    "p95_ms": 10.110668
+  },
+  "engine_total_ms": {
+    "n": 84,
+    "median_ms": 208.890521,
+    "p95_ms": 258.21165
+  },
+  "crop_ms": {
+    "n": 84,
+    "median_ms": 0.5757494999999999,
+    "p95_ms": 8.455126
+  },
+  "recognition_call_ms": {
+    "n": 84,
+    "median_ms": 27.867002499999998,
+    "p95_ms": 57.598047
+  },
+  "decode_ms": {
+    "n": 84,
+    "median_ms": 0.019542,
+    "p95_ms": 0.044333
+  },
+  "model_init_ms": {
+    "n": 1,
+    "median_ms": 68.9372,
+    "p95_ms": 68.9372
+  },
+  "read_ms": {
+    "n": 84,
+    "median_ms": 7.316025,
+    "p95_ms": 44.1283
+  },
+  "save_ms": {
+    "n": 84,
+    "median_ms": 6.712275,
+    "p95_ms": 30.7907
+  },
+  "backend_total_ms": {
+    "n": 84,
+    "median_ms": 228.20350000000002,
+    "p95_ms": 336.37
+  }
+}

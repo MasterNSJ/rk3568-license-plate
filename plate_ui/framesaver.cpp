@@ -49,8 +49,8 @@ void FrameSaver::save(FrameSaveTaskPtr task)
         } else if (!task->directory || !task->directory->isValid() || task->imagePath.isEmpty()) {
             task->error = QStringLiteral("无法创建摄像头识别图片");
         } else {
-            QImageWriter writer(task->imagePath, "png");
-            writer.setCompression(1); // Lossless, favor speed for the sampled frame.
+            QImageWriter writer(task->imagePath, task->imageFormat);
+            if (task->imageFormat == "png") writer.setCompression(1);
             if (!writer.write(image))
                 task->error = QStringLiteral("保存摄像头图片失败：%1").arg(writer.errorString());
         }

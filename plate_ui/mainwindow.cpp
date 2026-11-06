@@ -48,6 +48,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     m_observationClock.start();
+    m_frameFormat = qEnvironmentVariable("PLATE_FRAME_FORMAT", QStringLiteral("png")).toLatin1().toLower();
+    if (m_frameFormat != "png" && m_frameFormat != "bmp")
+        throw std::runtime_error("PLATE_FRAME_FORMAT must be png or bmp");
     m_sampleIntervalMs = static_cast<int>(plate::environment_number("PLATE_SAMPLE_MS", 1000, 100, 10000));
     plate::ConsensusConfig consensus;
     consensus.window = static_cast<std::size_t>(plate::environment_number("PLATE_VOTE_WINDOW", 5, 1, 99));
@@ -360,7 +363,7 @@ void MainWindow::handleCameraStatus(QCamera::Status status)
         m_cameraRecognitionEnabled = false;
 #if defined(Q_OS_LINUX)
         m_cameraRecognitionEnabled = m_videoProbe && m_videoProbe->isActive()
-            && QFileInfo(QStringLiteral("/userdata/plate_persistent/run_stream.sh")).isReadable();
+            && QFileInfo(qEnvironmentVariable("PLATE_BACKEND_SCRIPT", QStringLiteral("/userdata/plate_persistent/run_stream.sh"))).isReadable();
 #endif
         m_probeFpsClock.start();
         m_probeFrameCount = 0;
@@ -469,7 +472,7 @@ void MainWindow::startImageRecognition()
     if (m_imageBusy || m_frameSaveTask || m_imageDialogOpen || m_closing)
         return;
 
-    const QString script = QStringLiteral("/userdata/plate_persistent/run_stream.sh");
+    const QString script = qEnvironmentVariable("PLATE_BACKEND_SCRIPT", QStringLiteral("/userdata/plate_persistent/run_stream.sh"));
     if (!QFileInfo(script).isReadable()) {
         qWarning().noquote() << "Missing image recognition launcher:" << script;
         showImageRecognitionError(QStringLiteral("未找到识别程序，请先部署板端运行包"));
@@ -799,6 +802,8 @@ bool MainWindow::applyImageRecognitionResult(QString *error)
     if (m_imageFromCamera && m_activeCameraTask) {
         metric.insert("frame_convert_ms", m_activeCameraTask->convertMs);
         metric.insert("frame_encode_ms", m_activeCameraTask->encodeMs);
+        metric.insert("frame_format", QString::fromLatin1(m_activeCameraTask->imageFormat));
+        metric.insert("frame_file_bytes", double(QFileInfo(m_activeCameraTask->imagePath).size()));
         metric.insert("capture_to_ui_submit_ms", double(m_observationClock.elapsed() - m_activeCameraTask->capturedMs));
     }
     logExperiment(metric);
@@ -974,7 +979,8 @@ void MainWindow::handleVideoFrame(const QVideoFrame &frame)
     task->frameSize = frame.size();
     task->directory = directory;
     task->generation = m_cameraGeneration;
-    task->imagePath = QDir(directory->path()).filePath(QStringLiteral("frame.png"));
+    task->imageFormat = m_frameFormat;
+    task->imagePath = QDir(directory->path()).filePath(QStringLiteral("frame.") + QString::fromLatin1(m_frameFormat));
     m_frameSaveTask = task;
     m_cameraSampleClock.start();
     updateActionButtons();
@@ -999,7 +1005,7 @@ void MainWindow::handleFrameSaved(FrameSaveTaskPtr task)
         return;
     }
 #if defined(Q_OS_LINUX)
-    const QString script = QStringLiteral("/userdata/plate_persistent/run_stream.sh");
+    const QString script = qEnvironmentVariable("PLATE_BACKEND_SCRIPT", QStringLiteral("/userdata/plate_persistent/run_stream.sh"));
     if (!QFileInfo(script).isReadable()) {
         m_cameraRecognitionEnabled = false;
         setCameraRecognitionStatus(QStringLiteral("状态：未找到板端识别程序，预览和识别图片仍可使用"));

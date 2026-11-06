@@ -22,4 +22,4 @@ PASS short history confirms inside window
 PASS history expiry clears old confirmation
 PASS stream protocol roundtrip
 PASS NUL path rejected
-{"tests_passed":24,"kind":"host_cpp_unit_tests"}
+{"tests_passed":24,"kind":"cpp_unit_tests"}

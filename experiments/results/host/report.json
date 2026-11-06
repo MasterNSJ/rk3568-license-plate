@@ -3,7 +3,7 @@
   "platform": "Windows-10-10.0.19045-SP0",
   "unit_tests": {
     "tests_passed": 24,
-    "kind": "host_cpp_unit_tests"
+    "kind": "cpp_unit_tests"
   },
   "scenarios": 6,
   "configurations": 3,

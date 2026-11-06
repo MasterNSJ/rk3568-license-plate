@@ -7,6 +7,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('manifest',type=Path);p.add_argument('--adb',default='adb')
     p.add_argument('--serial',required=True);p.add_argument('--output',type=Path,required=True)
     p.add_argument('--remote-root',default='/userdata/plate_weekly')
+    p.add_argument('--backend-root',default='/userdata/plate_persistent')
     a=p.parse_args();items=json.loads(a.manifest.read_text(encoding='utf-8'))
     a.output.mkdir(parents=True,exist_ok=True)
     adb=[a.adb,'-s',a.serial];remote=a.remote_root.rstrip('/')
@@ -21,7 +22,7 @@ def main():
             source=(a.manifest.parent/item['image']).resolve()
             if not source.is_file():raise FileNotFoundError(source)
             call('push',str(source),f'{session}/{ident}.png')
-        cmd=f"cd /userdata/plate_persistent && PLATE_FILTER_ENABLED={config['enabled']} PLATE_MIN_SCORE={config['score']} sh run_stream.sh"
+        cmd=f"cd {shlex.quote(a.backend_root)} && PLATE_FILTER_ENABLED={config['enabled']} PLATE_MIN_SCORE={config['score']} sh run_stream.sh"
         start=time.perf_counter();proc=subprocess.Popen(adb+['shell',cmd],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
         lines=queue.Queue();raw=[]
         def reader():

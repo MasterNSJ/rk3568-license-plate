@@ -69,6 +69,8 @@ void save(const std::filesystem::path& directory, const std::string& image_path,
         if (result.recognition.complete && result.error.empty()) text << result.recognition.text;
         else text << "待确认；原始预测=" << result.recognition.text;
         text << '\n';
+        // Keep rejected candidates in JSON, but omit them from the accepted-result canvas.
+        if (!result.accepted) continue;
         const cv::Scalar color = result.recognition.complete && result.error.empty()
                                ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 165, 255);
         const cv::Point top_left(cvRound(detection.box[0]), cvRound(detection.box[1]));

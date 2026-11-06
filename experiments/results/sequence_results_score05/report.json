@@ -1,0 +1,270 @@
+{
+  "kind": "board_OCR_outputs_photo_derived_sequence_replay",
+  "config_results": "/home/user/rk3568_weekly_data_20261106/results_final/score_0.5",
+  "independent_sources": 7,
+  "sequence_frames_per_source": 10,
+  "aggregate": [
+    {
+      "window": 1,
+      "frames": 70,
+      "confirmed_frames": 61,
+      "wrong_confirmations": 16,
+      "text_changes": 13,
+      "expiry_checks_passed": 7
+    },
+    {
+      "window": 3,
+      "frames": 70,
+      "confirmed_frames": 47,
+      "wrong_confirmations": 9,
+      "text_changes": 4,
+      "expiry_checks_passed": 7
+    },
+    {
+      "window": 5,
+      "frames": 70,
+      "confirmed_frames": 38,
+      "wrong_confirmations": 6,
+      "text_changes": 0,
+      "expiry_checks_passed": 7
+    }
+  ],
+  "sequences": [
+    {
+      "source": 1,
+      "window": 1,
+      "truth": "川A8H458",
+      "frames": 10,
+      "confirmed_frames": 9,
+      "wrong_confirmations": 1,
+      "text_changes_between_confirmed_outputs": 2,
+      "first_correct_confirmation_ms": 0,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 1,
+      "window": 3,
+      "truth": "川A8H458",
+      "frames": 10,
+      "confirmed_frames": 6,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 1000,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 1,
+      "window": 5,
+      "truth": "川A8H458",
+      "frames": 10,
+      "confirmed_frames": 4,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 2000,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 2,
+      "window": 1,
+      "truth": "粤NBM959",
+      "frames": 10,
+      "confirmed_frames": 4,
+      "wrong_confirmations": 3,
+      "text_changes_between_confirmed_outputs": 3,
+      "first_correct_confirmation_ms": 4000,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 2,
+      "window": 3,
+      "truth": "粤NBM959",
+      "frames": 10,
+      "confirmed_frames": 0,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": null,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 2,
+      "window": 5,
+      "truth": "粤NBM959",
+      "frames": 10,
+      "confirmed_frames": 0,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": null,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 3,
+      "window": 1,
+      "truth": "豫ERU586",
+      "frames": 10,
+      "confirmed_frames": 10,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 0,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 3,
+      "window": 3,
+      "truth": "豫ERU586",
+      "frames": 10,
+      "confirmed_frames": 9,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 1000,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 3,
+      "window": 5,
+      "truth": "豫ERU586",
+      "frames": 10,
+      "confirmed_frames": 8,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 2000,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 4,
+      "window": 1,
+      "truth": "粤B6R678",
+      "frames": 10,
+      "confirmed_frames": 10,
+      "wrong_confirmations": 4,
+      "text_changes_between_confirmed_outputs": 8,
+      "first_correct_confirmation_ms": 0,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 4,
+      "window": 3,
+      "truth": "粤B6R678",
+      "frames": 10,
+      "confirmed_frames": 7,
+      "wrong_confirmations": 2,
+      "text_changes_between_confirmed_outputs": 4,
+      "first_correct_confirmation_ms": 2000,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 4,
+      "window": 5,
+      "truth": "粤B6R678",
+      "frames": 10,
+      "confirmed_frames": 4,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 4000,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 5,
+      "window": 1,
+      "truth": "浙B2V9L7",
+      "frames": 10,
+      "confirmed_frames": 8,
+      "wrong_confirmations": 8,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": null,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 5,
+      "window": 3,
+      "truth": "浙B2V9L7",
+      "frames": 10,
+      "confirmed_frames": 7,
+      "wrong_confirmations": 7,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": null,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 5,
+      "window": 5,
+      "truth": "浙B2V9L7",
+      "frames": 10,
+      "confirmed_frames": 6,
+      "wrong_confirmations": 6,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": null,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 6,
+      "window": 1,
+      "truth": "沪AF71017",
+      "frames": 10,
+      "confirmed_frames": 10,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 0,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 6,
+      "window": 3,
+      "truth": "沪AF71017",
+      "frames": 10,
+      "confirmed_frames": 9,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 1000,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 6,
+      "window": 5,
+      "truth": "沪AF71017",
+      "frames": 10,
+      "confirmed_frames": 8,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 2000,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 7,
+      "window": 1,
+      "truth": "皖K66666",
+      "frames": 10,
+      "confirmed_frames": 10,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 0,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 7,
+      "window": 3,
+      "truth": "皖K66666",
+      "frames": 10,
+      "confirmed_frames": 9,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 1000,
+      "state_cleared_by_12000ms": true
+    },
+    {
+      "source": 7,
+      "window": 5,
+      "truth": "皖K66666",
+      "frames": 10,
+      "confirmed_frames": 8,
+      "wrong_confirmations": 0,
+      "text_changes_between_confirmed_outputs": 0,
+      "first_correct_confirmation_ms": 2000,
+      "state_cleared_by_12000ms": true
+    }
+  ],
+  "limitations": [
+    "Uses real board model outputs but controlled photo-derived frames, not recorded road footage",
+    "Reused frame outputs are deterministic replay; no new NPU timing measurements here",
+    "Logical timestamps are 1000ms apart; confirmation delay is not processing latency"
+  ]
+}

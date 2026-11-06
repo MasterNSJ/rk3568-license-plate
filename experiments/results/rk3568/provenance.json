@@ -1,0 +1,16 @@
+{
+  "upstream": "https://github.com/we0091234/Chinese_license_plate_detection_recognition",
+  "source_commit": "670b765c09fff11850a7b1c542787ad66c24ae50",
+  "preparation_opencv": "4.4.0",
+  "independent_positive_source_images": 7,
+  "positive_derived_cases": 50,
+  "negative_photo_crops": 30,
+  "synthetic_negative_signs": 4,
+  "annotation": "Manually transcribed text and approximate original-image boxes, then geometrically transformed",
+  "limitations": [
+    "Small source set; variants are correlated",
+    "Negative crops are not independent full-scene photographs",
+    "Synthetic TAXI signs do not establish real taxi roof-sign performance",
+    "No train/validation/test split; this is an exploratory threshold sweep"
+  ]
+}

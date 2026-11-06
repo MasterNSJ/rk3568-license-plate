@@ -1,0 +1,86 @@
+{
+  "metrics": {
+    "source": 1,
+    "window": 3,
+    "truth": "川A8H458",
+    "frames": 10,
+    "confirmed_frames": 6,
+    "wrong_confirmations": 0,
+    "text_changes_between_confirmed_outputs": 0,
+    "first_correct_confirmation_ms": 1000,
+    "state_cleared_by_12000ms": true
+  },
+  "input": [
+    {
+      "timestamp_ms": 0,
+      "frame": "p01_original",
+      "raw": "川A8H458",
+      "valid": true,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 1000,
+      "frame": "p01_dim",
+      "raw": "川A8H458",
+      "valid": true,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 2000,
+      "frame": "p01_original",
+      "raw": "川A8H458",
+      "valid": true,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 3000,
+      "frame": "p01_blur",
+      "raw": "川A8H458",
+      "valid": true,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 4000,
+      "frame": "p01_bright",
+      "raw": "",
+      "valid": false,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 5000,
+      "frame": "p01_original",
+      "raw": "川A8H458",
+      "valid": true,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 6000,
+      "frame": "p01_rotate5",
+      "raw": "皖A8H458",
+      "valid": true,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 7000,
+      "frame": "p01_original",
+      "raw": "川A8H458",
+      "valid": true,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 8000,
+      "frame": "p01_dim",
+      "raw": "川A8H458",
+      "valid": true,
+      "truth": "川A8H458"
+    },
+    {
+      "timestamp_ms": 9000,
+      "frame": "p01_original",
+      "raw": "川A8H458",
+      "valid": true,
+      "truth": "川A8H458"
+    }
+  ],
+  "output_tsv": "0\t川A8H458\t-\t1\n1000\t川A8H458\t川A8H458\t2\n2000\t川A8H458\t川A8H458\t3\n3000\t川A8H458\t川A8H458\t3\n4000\t-\t-\t0\n5000\t川A8H458\t-\t1\n6000\t皖A8H458\t-\t1\n7000\t川A8H458\t川A8H458\t2\n8000\t川A8H458\t川A8H458\t2\n9000\t川A8H458\t川A8H458\t3\n10000\t川A8H458\t川A8H458\t3\n11000\t川A8H458\t川A8H458\t3\n12000\t-\t-\t0\n13000\t-\t-\t0\n"
+}

@@ -111,6 +111,7 @@ private:
     QElapsedTimer m_observationClock;
     QTimer *m_consensusTimer = nullptr;
     int m_sampleIntervalMs = 1000;
+    QByteArray m_frameFormat = "png";
     int m_targetTimeoutMs = 3000;
 };
 

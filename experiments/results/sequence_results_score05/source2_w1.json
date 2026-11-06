@@ -1,0 +1,86 @@
+{
+  "metrics": {
+    "source": 2,
+    "window": 1,
+    "truth": "粤NBM959",
+    "frames": 10,
+    "confirmed_frames": 4,
+    "wrong_confirmations": 3,
+    "text_changes_between_confirmed_outputs": 3,
+    "first_correct_confirmation_ms": 4000,
+    "state_cleared_by_12000ms": true
+  },
+  "input": [
+    {
+      "timestamp_ms": 0,
+      "frame": "p02_original",
+      "raw": "5NBM959",
+      "valid": false,
+      "truth": "粤NBM959"
+    },
+    {
+      "timestamp_ms": 1000,
+      "frame": "p02_dim",
+      "raw": "皖NBM959",
+      "valid": true,
+      "truth": "粤NBM959"
+    },
+    {
+      "timestamp_ms": 2000,
+      "frame": "p02_original",
+      "raw": "5NBM959",
+      "valid": false,
+      "truth": "粤NBM959"
+    },
+    {
+      "timestamp_ms": 3000,
+      "frame": "p02_blur",
+      "raw": "皖WSM959",
+      "valid": true,
+      "truth": "粤NBM959"
+    },
+    {
+      "timestamp_ms": 4000,
+      "frame": "p02_bright",
+      "raw": "粤NBM959",
+      "valid": true,
+      "truth": "粤NBM959"
+    },
+    {
+      "timestamp_ms": 5000,
+      "frame": "p02_original",
+      "raw": "5NBM959",
+      "valid": false,
+      "truth": "粤NBM959"
+    },
+    {
+      "timestamp_ms": 6000,
+      "frame": "p02_rotate5",
+      "raw": "5NBM959",
+      "valid": false,
+      "truth": "粤NBM959"
+    },
+    {
+      "timestamp_ms": 7000,
+      "frame": "p02_original",
+      "raw": "5NBM959",
+      "valid": false,
+      "truth": "粤NBM959"
+    },
+    {
+      "timestamp_ms": 8000,
+      "frame": "p02_dim",
+      "raw": "皖NBM959",
+      "valid": true,
+      "truth": "粤NBM959"
+    },
+    {
+      "timestamp_ms": 9000,
+      "frame": "p02_original",
+      "raw": "5NBM959",
+      "valid": false,
+      "truth": "粤NBM959"
+    }
+  ],
+  "output_tsv": "0\t5NBM959\t-\t0\n1000\t皖NBM959\t皖NBM959\t1\n2000\t5NBM959\t-\t0\n3000\t皖WSM959\t皖WSM959\t1\n4000\t粤NBM959\t粤NBM959\t1\n5000\t5NBM959\t-\t0\n6000\t5NBM959\t-\t0\n7000\t5NBM959\t-\t0\n8000\t皖NBM959\t皖NBM959\t1\n9000\t5NBM959\t-\t0\n10000\t5NBM959\t-\t0\n11000\t5NBM959\t-\t0\n12000\t-\t-\t0\n13000\t-\t-\t0\n"
+}

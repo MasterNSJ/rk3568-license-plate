@@ -4,8 +4,9 @@
 set -eu
 duration=${PLATE_TEST_SECONDS:-60}
 output=${1:-/userdata/plate_weekly/sampling}
+ui_dir=${PLATE_UI_ROOT:-/userdata/plate_ui}
 mkdir -p "$output"
-for interval in 1000 500 250; do
+for interval in ${PLATE_SAMPLE_INTERVALS:-1000 500 250}; do
     export PLATE_SAMPLE_MS="$interval" PLATE_AUTO_START=1 PLATE_RUN_SECONDS="$duration"
     export PLATE_METRICS_FILE="$output/metrics_${interval}.jsonl"
     # Each metrics file is a new run; refuse to mix with old evidence.
@@ -13,8 +14,9 @@ for interval in 1000 500 250; do
         printf 'Output exists; choose a new result directory: %s\n' "$output" >&2
         exit 1
     fi
-    (cd /userdata/plate_ui && sh run.sh) >"$output/ui_${interval}.log" 2>&1 &
+    (cd "$ui_dir" && exec sh run.sh) >"$output/ui_${interval}.log" 2>&1 &
     task_pid=$!
+    printf 'observed_pid=%s\n' "$task_pid" >"$output/resources_${interval}.txt"
     trap 'kill "$task_pid" 2>/dev/null || true' INT TERM EXIT
     while kill -0 "$task_pid" 2>/dev/null; do
         if [ -r "/proc/$task_pid/status" ]; then

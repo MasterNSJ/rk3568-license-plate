@@ -1,0 +1,86 @@
+{
+  "metrics": {
+    "source": 3,
+    "window": 1,
+    "truth": "豫ERU586",
+    "frames": 10,
+    "confirmed_frames": 10,
+    "wrong_confirmations": 0,
+    "text_changes_between_confirmed_outputs": 0,
+    "first_correct_confirmation_ms": 0,
+    "state_cleared_by_12000ms": true
+  },
+  "input": [
+    {
+      "timestamp_ms": 0,
+      "frame": "p03_original",
+      "raw": "豫ERU586",
+      "valid": true,
+      "truth": "豫ERU586"
+    },
+    {
+      "timestamp_ms": 1000,
+      "frame": "p03_dim",
+      "raw": "豫ERU586",
+      "valid": true,
+      "truth": "豫ERU586"
+    },
+    {
+      "timestamp_ms": 2000,
+      "frame": "p03_original",
+      "raw": "豫ERU586",
+      "valid": true,
+      "truth": "豫ERU586"
+    },
+    {
+      "timestamp_ms": 3000,
+      "frame": "p03_blur",
+      "raw": "豫ERU586",
+      "valid": true,
+      "truth": "豫ERU586"
+    },
+    {
+      "timestamp_ms": 4000,
+      "frame": "p03_bright",
+      "raw": "豫ERU586",
+      "valid": true,
+      "truth": "豫ERU586"
+    },
+    {
+      "timestamp_ms": 5000,
+      "frame": "p03_original",
+      "raw": "豫ERU586",
+      "valid": true,
+      "truth": "豫ERU586"
+    },
+    {
+      "timestamp_ms": 6000,
+      "frame": "p03_rotate5",
+      "raw": "豫ERU586",
+      "valid": true,
+      "truth": "豫ERU586"
+    },
+    {
+      "timestamp_ms": 7000,
+      "frame": "p03_original",
+      "raw": "豫ERU586",
+      "valid": true,
+      "truth": "豫ERU586"
+    },
+    {
+      "timestamp_ms": 8000,
+      "frame": "p03_dim",
+      "raw": "豫ERU586",
+      "valid": true,
+      "truth": "豫ERU586"
+    },
+    {
+      "timestamp_ms": 9000,
+      "frame": "p03_original",
+      "raw": "豫ERU586",
+      "valid": true,
+      "truth": "豫ERU586"
+    }
+  ],
+  "output_tsv": "0\t豫ERU586\t豫ERU586\t1\n1000\t豫ERU586\t豫ERU586\t1\n2000\t豫ERU586\t豫ERU586\t1\n3000\t豫ERU586\t豫ERU586\t1\n4000\t豫ERU586\t豫ERU586\t1\n5000\t豫ERU586\t豫ERU586\t1\n6000\t豫ERU586\t豫ERU586\t1\n7000\t豫ERU586\t豫ERU586\t1\n8000\t豫ERU586\t豫ERU586\t1\n9000\t豫ERU586\t豫ERU586\t1\n10000\t豫ERU586\t豫ERU586\t1\n11000\t豫ERU586\t豫ERU586\t1\n12000\t-\t-\t0\n13000\t-\t-\t0\n"
+}

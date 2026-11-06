@@ -59,6 +59,6 @@ int main() {
         plate_stream::run(input,output,[](const plate_stream::Request& r){if(r.image!="/test.png")throw std::runtime_error("path");return 1.25;});
         require(output.str().find("@PLATE_DONE\t1\t1.250")!=std::string::npos, "stream protocol roundtrip");
         require(throws([]{plate_stream::parse("1\t00\t2f61");}), "NUL path rejected");
-        std::cout << "{\"tests_passed\":" << tests << ",\"kind\":\"host_cpp_unit_tests\"}\n";
+        std::cout << "{\"tests_passed\":" << tests << ",\"kind\":\"cpp_unit_tests\"}\n";
     } catch(const std::exception& e){std::cerr<<"FAIL "<<e.what()<<'\n';return 1;}
 }

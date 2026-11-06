@@ -13,6 +13,7 @@ struct FrameSaveTask {
     QString imagePath;
     QSize frameSize;
     QString error;
+    QByteArray imageFormat = "png";
     qint64 capturedMs = 0;
     double convertMs = 0, encodeMs = 0;
 };

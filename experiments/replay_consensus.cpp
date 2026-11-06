@@ -14,7 +14,8 @@ int main(int argc,char** argv) {
             if(!(stream>>time>>x>>y>>w>>h>>valid>>raw)) throw std::runtime_error("Bad replay input");
             if(raw=="-")raw.clear();
             plate::ConsensusState state;
-            if(w<=0 || h<=0) {consensus.expire(time);state=consensus.state();}
+            if(valid<0) {consensus.reset();consensus.expire(time);state=consensus.state();}
+            else if(w<=0 || h<=0) {consensus.expire(time);state=consensus.state();}
             else {plate::Detection d;d.box={x,y,x+w,y+h};state=consensus.observe(d,raw,valid!=0,time);}
             std::cout<<time<<'\t'<<(state.raw.empty()?"-":state.raw)<<'\t'
                      <<(state.confirmed.empty()?"-":state.confirmed)<<'\t'<<state.support<<'\n';
